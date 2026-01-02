@@ -14,7 +14,6 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
 }
 
 video {
@@ -29,19 +28,18 @@ video {
   left: 50%;
   transform: translateX(-50%);
   padding: 14px 24px;
-  border-radius: 18px;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(10px);
   text-align: center;
-  min-width: 200px;
 }
 
-.pose {
+#pose {
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-.confidence {
+#confidence {
   font-size: 0.9rem;
   opacity: 0.8;
 }
@@ -52,10 +50,7 @@ video {
   left: 50%;
   transform: translateX(-50%);
   padding: 12px 28px;
-  font-size: 16px;
   border-radius: 14px;
   border: none;
-  background: white;
-  color: black;
   font-weight: 600;
 }
