@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hand Pose Sound</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose"></script>
+</head>
+<body>
+
+  <div class="app">
+    <video id="webcam" autoplay playsinline></video>
+
+    <div class="overlay">
+      <div class="pose" id="pose">No Pose</div>
+      <div class="confidence" id="confidence">0%</div>
+    </div>
+
+    <button id="startBtn">START</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
