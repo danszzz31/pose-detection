@@ -10,7 +10,7 @@ async function init() {
     maxPredictions = model.getTotalClasses();
 
     const flip = true;
-    webcam = new tmImage.Webcam(150, 150, flip); // Kurangi resolusi dari 200x200 ke 150x150 untuk performa HP
+    webcam = new tmImage.Webcam(224, 224, flip); // Set resolusi ke 224x224 (ukuran standar MobileNet)
     await webcam.setup();
     await webcam.play();
     window.requestAnimationFrame(loop);
@@ -25,7 +25,7 @@ async function init() {
 async function loop() {
     webcam.update();
     const now = Date.now();
-    if (now - lastPredictionTime > 500) { // Prediksi hanya setiap 500ms, bukan setiap frame
+    if (now - lastPredictionTime > 500) { // Prediksi setiap 500ms
         await predict();
         lastPredictionTime = now;
     }
@@ -33,7 +33,13 @@ async function loop() {
 }
 
 async function predict() {
-    const prediction = await model.predict(webcam.canvas);
+    // Preprocessing: Resize canvas ke 224x224 jika perlu
+    let image = tf.browser.fromPixels(webcam.canvas);
+    image = tf.image.resizeBilinear(image, [224, 224]); // Resize ke 224x224
+    image = image.div(255.0); // Normalize ke 0-1
+    image = image.expandDims(0); // Tambah batch dimension
+
+    const prediction = await model.predict(image); // Gunakan tensor yang diproses, bukan canvas langsung
     let detected = false;
 
     for (let i = 0; i < maxPredictions; i++) {
@@ -48,6 +54,9 @@ async function predict() {
     if (detected) {
         playSound("./sounds/detect.mp3");
     }
+
+    // Cleanup tensor untuk mencegah memory leak
+    image.dispose();
 }
 
 function playSound(soundFile) {
